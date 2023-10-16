@@ -1,7 +1,9 @@
 use core::encoding::Guldhjerte;
 use std::env;
 
+use web::app::App;
 mod core;
+mod web;
 fn main() {
     let args: Vec<String> = env::args().collect();
 
@@ -15,6 +17,7 @@ fn main() {
             _ => panic!("Unknown command"),
         }
     } else {
-        panic!("No input provided");
+        // run web app
+        yew::Renderer::<App>::new().render();
     }
 }
