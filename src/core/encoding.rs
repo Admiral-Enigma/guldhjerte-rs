@@ -7,11 +7,11 @@ pub trait Guldhjerte {
 
 impl Guldhjerte for String {
     fn to_guldhjerte(&self) -> Result<String, String> {
-        encode_to_string(&self)
+        encode_to_string(self)
     }
 
     fn to_price(&self) -> String {
-        decode_to_price(&self)
+        decode_to_price(self)
     }
 }
 
@@ -43,16 +43,14 @@ fn decode_to_price(guldhjerte: &str) -> String {
 fn price_to_guldhjerte(character: &str) -> Result<String, String> {
     if character == "." || character == "," {
         Ok(",".to_string())
-    } else {
-        if let Ok(digit) = character.parse::<usize>() {
-            if digit < super::CHARSET.chars().count() {
-                Ok(super::CHARSET.chars().nth(digit).unwrap().to_string())
-            } else {
-                Err("Invalid digit".to_string())
-            }
+    } else if let Ok(digit) = character.parse::<usize>() {
+        if digit < super::CHARSET.chars().count() {
+            Ok(super::CHARSET.chars().nth(digit).unwrap().to_string())
         } else {
             Err("Invalid digit".to_string())
         }
+    } else {
+        Err("Invalid digit".to_string())
     }
 }
 
